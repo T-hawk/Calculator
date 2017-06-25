@@ -33,6 +33,10 @@ def perform_operation(operation):
         print(output['result'])
         return jsonify(output)
 
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
+
 @app.route('/divide')
 def divide_endpoint():
     b = convert_to_int(request.args.get('b'))
