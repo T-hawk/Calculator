@@ -1,1 +1,1 @@
-web gunicorn Calculator:app -b 0.0.0.0:80
+authbind web gunicorn Calculator:app -b 0.0.0.0:80
