@@ -1,5 +1,6 @@
 from flask import Flask,request
 from flask import jsonify
+import math
 app = Flask(__name__)
 
 def convert_to_int(s):
@@ -7,6 +8,9 @@ def convert_to_int(s):
         return int(s)
     except (ValueError, TypeError):
         return None
+
+def sqaure_root(a, _):
+    return math.sqrt(a)
 
 def divide(a, b):
     return a / b
@@ -20,10 +24,10 @@ def add(a, b):
 def multiply(a, b):
     return a * b
 
-def perform_operation(operation):
+def perform_operation(operation, uses_single_number = False):
     a = convert_to_int(request.args.get('a'))
     b = convert_to_int(request.args.get('b'))
-    if a is None or b is None:
+    if a is None or (b is None and not uses_single_number):
         return 'A NUMBER', 400
     else:
         output = {'result': operation(a, b),
@@ -36,6 +40,12 @@ def perform_operation(operation):
 @app.route('/')
 def root():
     return app.send_static_file('index.html')
+
+@app.route('/square_root')
+def square_root():
+    return perform_operation(sqaure_root, True)
+
+
 
 @app.route('/divide')
 def divide_endpoint():
