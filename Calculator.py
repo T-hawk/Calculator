@@ -43,6 +43,9 @@ def root():
 
 @app.route('/square_root')
 def square_root():
+    a = convert_to_int(request.args.get('a'))
+    if a < 0:
+        return 'Please don\'t enter a negative number', 400
     return perform_operation(sqaure_root, True)
 
 
