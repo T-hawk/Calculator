@@ -42,7 +42,7 @@ def root():
     return app.send_static_file('index.html')
 
 @app.route('/square_root')
-def square_root():
+def square_root_endpoint():
     a = convert_to_int(request.args.get('a'))
     if a < 0:
         return 'Please don\'t enter a negative number', 400
