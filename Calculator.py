@@ -44,14 +44,16 @@ def root():
 @app.route('/square_root')
 def square_root_endpoint():
     a = convert_to_int(request.args.get('a'))
-    if a is None:
-        return 'Please enter a number in the first box.', 400
+    b = convert_to_int(request.args.get('b'))
+    if b is not None:
+        return 'Please just enter a number in the first box.', 400
 
-    if a < 0:
+    if a  is None:
+        return 'Enter a number please', 400
+
+    if a  < 0:
         return 'Please don\'t enter a negative number', 400
     return perform_operation(sqaure_root, True)
-
-
 
 @app.route('/divide')
 def divide_endpoint():
