@@ -3,31 +3,49 @@ from flask import jsonify
 import math
 app = Flask(__name__)
 
+def entered_number(a, b):
+
+    if a is not None:
+        return a
+
+    if b is not None:
+        return b
+
+
 def convert_to_int(s):
     try:
         return int(s)
     except (ValueError, TypeError):
         return None
 
-def sqaure_root(a, _):
-    return math.sqrt(a)
+
+def sqaure_root(a, b):
+    if a is not None:
+        return math.sqrt(a)
+    if b is not None:
+        return math.sqrt(b)
+
 
 def divide(a, b):
     return a / b
 
+
 def subtract(a, b):
     return a - b
+
 
 def add(a, b):
     return a + b
 
+
 def multiply(a, b):
     return a * b
+
 
 def perform_operation(operation, uses_single_number = False):
     a = convert_to_int(request.args.get('a'))
     b = convert_to_int(request.args.get('b'))
-    if a is None or (b is None and not uses_single_number):
+    if (b is None and a is None) and not uses_single_number:
         return 'A NUMBER', 400
     else:
         output = {'result': operation(a, b),
@@ -45,13 +63,14 @@ def root():
 def square_root_endpoint():
     a = convert_to_int(request.args.get('a'))
     b = convert_to_int(request.args.get('b'))
-    if b is not None:
-        return 'Please just enter a number in the first box.', 400
 
-    if a  is None:
+    if a is not None and b is not None:
+        return 'Please enter one number.', 400
+
+    if entered_number(a, b) is None:
         return 'Enter a number please', 400
 
-    if a  < 0:
+    if entered_number(a, b) < 0:
         return 'Please don\'t enter a negative number', 400
     return perform_operation(sqaure_root, True)
 
